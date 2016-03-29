@@ -1,4 +1,4 @@
-import {SET_VISIBILITY_FILTER, VisibilityFilters} from './actions';
+import {ADD_TODO, SET_VISIBILITY_FILTER, VisibilityFilters} from './actions';
 
 const initialState = {
   visibilityFilter: VisibilityFilters.SHOW_ALL,
@@ -11,6 +11,17 @@ export const todoApp = (state = initialState, action) => {
       return {
         ...state,
         visibilityFilter: action.filter
+      };
+    case ADD_TODO:
+      return {
+        ...state,
+        todos: [
+          ...state.todos,
+          {
+            text: action.text,
+            completed: false
+          }
+        ]
       };
     default:
       return state;
