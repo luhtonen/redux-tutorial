@@ -32,4 +32,23 @@ describe('reducers', function() {
     const newState = reducers.todoApp(undefined, action);
     expect(newState.visibilityFilter).to.equal(action.filter);
   });
+
+  it('handle COMPLETED_TODO', function () {
+    const index = 0;
+    const state = {
+      visibilityFilter: VisibilityFilters.SHOW_ALL,
+      todos: [
+        {
+          text: 'Learn Redux',
+          completed: false
+        }
+      ]
+    };
+    const action = {
+      type: COMPLETE_TODO,
+      index: index
+    };
+    const newState = reducers.todoApp(state, action);
+    expect(newState.todos[index].completed).to.equal(true);
+  });
 });
