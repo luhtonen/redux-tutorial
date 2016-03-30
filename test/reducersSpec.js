@@ -4,13 +4,14 @@ import * as reducers from '../app/reducers';
 
 describe('reducers', function() {
   it('reducer with undefined action should return previous state', function () {
-    const previousState = {
-      visibilityFilter: VisibilityFilters.SHOW_ALL,
+    const state = {
+      visibilityFilter: VisibilityFilters.SHOW_COMPLETED,
       todos: []
     };
     const action = {type: 'unknown'};
-    const nextState = reducers.todoApp(previousState, action);
-    expect(nextState).to.equal(previousState);
+    const nextState = reducers.todoApp(state, action);
+    expect(nextState.visibilityFilter).to.equal(state.visibilityFilter);
+    expect(nextState.todos).to.equal(state.todos);
   });
 
   it('handle ADD_TODO', function () {

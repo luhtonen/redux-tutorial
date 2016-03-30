@@ -1,10 +1,5 @@
 import {ADD_TODO, COMPLETE_TODO, SET_VISIBILITY_FILTER, VisibilityFilters} from './actions';
 
-const initialState = {
-  visibilityFilter: VisibilityFilters.SHOW_ALL,
-  todos: []
-};
-
 const todos = (state = [], action) => {
   switch (action.type) {
     case ADD_TODO:
@@ -30,20 +25,18 @@ const todos = (state = [], action) => {
   }
 };
 
-export const todoApp = (state = initialState, action) => {
+const visibilityFilter = (state = VisibilityFilters.SHOW_ALL, action) => {
   switch (action.type) {
     case SET_VISIBILITY_FILTER:
-      return {
-        ...state,
-        visibilityFilter: action.filter
-      };
-    case ADD_TODO:
-    case COMPLETE_TODO:
-      return {
-        ...state,
-        todos: todos(state.todos, action)
-      };
+      return action.filter;
     default:
       return state;
   }
+};
+
+export const todoApp = (state = {}, action) => {
+  return {
+    visibilityFilter: visibilityFilter(state.visibilityFilter, action),
+    todos: todos(state.todos, action)
+  };
 };
