@@ -1,6 +1,6 @@
 import {expect} from 'chai';
 import {ADD_TODO, COMPLETE_TODO, SET_VISIBILITY_FILTER, VisibilityFilters} from '../app/actions';
-import * as reducers from '../app/reducers';
+import todoApp from '../app/reducers';
 
 describe('reducers', function() {
   it('reducer with undefined action should return previous state', function () {
@@ -9,9 +9,8 @@ describe('reducers', function() {
       todos: []
     };
     const action = {type: 'unknown'};
-    const nextState = reducers.todoApp(state, action);
-    expect(nextState.visibilityFilter).to.equal(state.visibilityFilter);
-    expect(nextState.todos).to.equal(state.todos);
+    const nextState = todoApp(state, action);
+    expect(nextState).to.shallowDeepEqual(state);
   });
 
   it('handle ADD_TODO', function () {
@@ -19,7 +18,7 @@ describe('reducers', function() {
       type: ADD_TODO,
       text: 'Learn Redux'
     };
-    const newState = reducers.todoApp(undefined, action);
+    const newState = todoApp(undefined, action);
     expect(newState.todos.length).to.equal(1);
     expect(newState.todos[0].text).to.equal(action.text);
     expect(newState.todos[0].completed).to.equal(false);
@@ -30,7 +29,7 @@ describe('reducers', function() {
       type: SET_VISIBILITY_FILTER,
       filter: VisibilityFilters.SHOW_COMPLETED
     };
-    const newState = reducers.todoApp(undefined, action);
+    const newState = todoApp(undefined, action);
     expect(newState.visibilityFilter).to.equal(action.filter);
   });
 
@@ -49,7 +48,7 @@ describe('reducers', function() {
       type: COMPLETE_TODO,
       index: index
     };
-    const newState = reducers.todoApp(state, action);
+    const newState = todoApp(state, action);
     expect(newState.todos[index].completed).to.equal(true);
   });
 });
