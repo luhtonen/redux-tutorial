@@ -12,7 +12,7 @@ describe('actions creators', function () {
   it('completeTodo', function () {
     const index = 1;
     const action = actions.completeTodo(index);
-    expect(action.type).to.equal(actions.COMPLETE_TODO);
+    expect(action.type).to.equal(actions.TOGGLE_TODO);
     expect(action.index).to.equal(index);
   });
 

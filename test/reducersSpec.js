@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import {ADD_TODO, COMPLETE_TODO, SET_VISIBILITY_FILTER, VisibilityFilters} from '../app/actions';
+import {ADD_TODO, TOGGLE_TODO, SET_VISIBILITY_FILTER, VisibilityFilters} from '../app/actions';
 import todoApp from '../app/reducers';
 
 describe('reducers', function() {
@@ -45,7 +45,7 @@ describe('reducers', function() {
       ]
     };
     const action = {
-      type: COMPLETE_TODO,
+      type: TOGGLE_TODO,
       index: index
     };
     const newState = todoApp(state, action);
