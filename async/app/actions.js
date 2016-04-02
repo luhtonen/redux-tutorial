@@ -36,14 +36,32 @@ export const receivePosts = (subreddit, json) => {
 };
 
 // Thunk actions
-export const fetchPosts = (subreddit) => {
-  // the app state is updated to inform that the API call is starting
-  dispatch(requestPosts(subreddit));
+const fetchPosts = (subreddit) => {
+  return dispatch => {
+    dispatch(requestPosts(subreddit));
+    return fetch(`http://www.reddit.com/r/${subreddit}.json`)
+      .then(response => response.json)
+      .then(json => dispatch(receivePosts(subreddit, json)));
+  };
+};
 
-  return fetch(`http://www.reddit.com/r/${subreddit}.json`)
-    .then(response => response.json)
-    .then(json =>
-      // Update the app state with the results of the API call
-      dispatch(receivePosts(subreddit, json))
-    );
+const shouldFetchPosts = (state, subreddit) => {
+  const posts = state.postsBySubreddit[subreddit];
+  if (!posts) {
+    return true;
+  } else if (posts.isFetching) {
+    return false;
+  } else {
+    return posts.didInvalidate;
+  }
+};
+
+export const fetchPostsIfNeeded = (subreddit) => {
+  return (dispatch, getState) => {
+    if (shouldFetchPosts(getState(), subreddit)) {
+      return dispatch(fetchPosts(subreddit));
+    } else {
+      return Promise.resolve();
+    }
+  };
 };
